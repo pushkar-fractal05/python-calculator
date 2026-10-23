@@ -35,7 +35,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 
+                bat '''
+                    if not exist dist mkdir dist
+                    python -c "import zipfile; z=zipfile.ZipFile('dist/calculator.zip','w'); z.write('calculator.py'); z.write('requirements.txt'); z.close()"
+                '''
 
                 archiveArtifacts artifacts: 'dist/calculator.zip', fingerprint: true
             }
